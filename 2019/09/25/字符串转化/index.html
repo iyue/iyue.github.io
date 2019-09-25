@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="字符串转化leetcode 第6场双周赛题目给出两个长度相同的字符串，分别是 str1 和 str2。请你帮忙判断字符串 str1 能不能在 零次 或 多次 转化后变成字符串 str2。 每一次转化时，将会一次性将 str1 中出现的 所有 相同字母变成其他 任何 小写英文字母（见示例）。 只有在字符串 str1 能够通过上述方式顺利转化为字符串 str2 时才能返回 True，否则返回 Fals">
+<meta name="keywords" content="leetcode,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符串转化">
+<meta property="og:url" content="http://yoursite.com/2019/09/25/字符串转化/index.html">
+<meta property="og:site_name" content="iyue">
+<meta property="og:description" content="字符串转化leetcode 第6场双周赛题目给出两个长度相同的字符串，分别是 str1 和 str2。请你帮忙判断字符串 str1 能不能在 零次 或 多次 转化后变成字符串 str2。 每一次转化时，将会一次性将 str1 中出现的 所有 相同字母变成其他 任何 小写英文字母（见示例）。 只有在字符串 str1 能够通过上述方式顺利转化为字符串 str2 时才能返回 True，否则返回 Fals">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-25T03:33:23.268Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字符串转化">
+<meta name="twitter:description" content="字符串转化leetcode 第6场双周赛题目给出两个长度相同的字符串，分别是 str1 和 str2。请你帮忙判断字符串 str1 能不能在 零次 或 多次 转化后变成字符串 str2。 每一次转化时，将会一次性将 str1 中出现的 所有 相同字母变成其他 任何 小写英文字母（见示例）。 只有在字符串 str1 能够通过上述方式顺利转化为字符串 str2 时才能返回 True，否则返回 Fals">
+  <link rel="canonical" href="http://yoursite.com/2019/09/25/字符串转化/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>字符串转化 | iyue</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">iyue</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-schedule">
+      
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-sitemap">
+      
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/iyue" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/25/字符串转化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="iyue">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">字符串转化
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-25 11:32:55 / 修改时间：11:33:23" itemprop="dateCreated datePublished" datetime="2019-09-25T11:32:55+08:00">2019-09-25</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="字符串转化"><a href="#字符串转化" class="headerlink" title="字符串转化"></a>字符串转化</h1><pre><code>leetcode 第6场双周赛</code></pre><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给出两个长度相同的字符串，分别是 <code>str1</code> 和 <code>str2</code>。请你帮忙判断字符串 <code>str1</code> 能不能在 零次 或 多次 转化后变成字符串 <code>str2</code>。</p>
+<p>每一次转化时，将会一次性将 <code>str1</code> 中出现的 所有 相同字母变成其他 任何 小写英文字母（见示例）。</p>
+<p>只有在字符串 <code>str1</code> 能够通过上述方式顺利转化为字符串 <code>str2</code> 时才能返回 <code>True</code>，否则返回 <code>False</code>。​​</p>
+<p>示例 1：</p>
+<pre><code>输入：str1 = &quot;aabcc&quot;, str2 = &quot;ccdee&quot;
+输出：true
+解释：将 &apos;c&apos; 变成 &apos;e&apos;，然后把 &apos;b&apos; 变成 &apos;d&apos;，接着再把 &apos;a&apos; 变成 &apos;c&apos;。注意，转化的顺序也很重要。</code></pre><p>示例 2：</p>
+<pre><code>输入：str1 = &quot;leetcode&quot;, str2 = &quot;codeleet&quot;
+输出：false
+解释：我们没有办法能够把 str1 转化为 str2。
+
+
+提示：
+
+1 &lt;= str1.length == str2.length &lt;= 10^4
+str1 和 str2 中都只会出现 小写英文字母</code></pre><h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>主要思路是建立一个<code>HashMap</code>,将当前字符串中的信息存进<code>map</code>,该<code>HashMap</code> 的 <code>key</code> 为字符 即<code>(a ~ z)</code>,<code>value</code>为 该字符串中,该字符所在位置的下标集合,为<code>HashSet&lt;Integer&gt;</code>类型</li>
+<li>例: <code>str1 = &quot;aabcc&quot;, str2 = &quot;ccdee&quot;</code><br>此时map1内的内容为:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="left">key</th>
+<th align="left">value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">a</td>
+<td align="left">0、1</td>
+</tr>
+<tr>
+<td align="left">b</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">c</td>
+<td align="left">3、4</td>
+</tr>
+</tbody></table>
+<pre><code>map2内的内容为:</code></pre><table>
+<thead>
+<tr>
+<th align="left">key</th>
+<th align="left">value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">c</td>
+<td align="left">0、1</td>
+</tr>
+<tr>
+<td align="left">d</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">e</td>
+<td align="left">3、4</td>
+</tr>
+</tbody></table>
+<p>此时，遍历<code>map2</code>中的<code>value</code>,即<code>set1</code>,第一组中的为<code>0、1</code>，首先是<code>0</code>，根据此下标找到str1对应位置的字符，即<code>str1.charAt(0);</code>，此时的字符为<code>a</code>,在通过<code>a(key）</code>，找到map1中字符<code>a</code>的下标集合<code>set2</code>，然后判断这个集合是否为<code>set1</code>中的子集。若不是，则不能完成转换<br>经遍历后，均满足，遂返回<code>true</code></p>
+<ol start="3">
+<li>意思就是说，<code>str2</code>中的某一类字符，必须由<code>str1</code>中对应位置的一类或者几类字符转化而来，且<code>str1</code>中的这些字符不能用作转化为其他字符。<br> 例如：<code>str1=&quot;abcde&quot;</code> <code>str2=&quot;eeexy&quot;</code> 则输出true;</li>
+<li>当<code>str2</code>中的字符种类为<code>26</code>时，除非<code>str1</code>等于<code>str2</code>,否则无法完成转化，<br> 例如：<code>str1=&quot;bcdefghijklmnopqrstuvwxyza&quot;;</code><br> <code>str2=&quot;abcdefghijklmnopqrstuvwxyz&quot;;</code></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canConvert</span><span class="params">(String str1, String str2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//如果为空或者长度不相等,直接返回false</span></span><br><span class="line">        <span class="keyword">if</span> (str1.isEmpty()|| str2.isEmpty() || str1.length() != str2.length()) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//若两个字符串相等则直接返回true</span></span><br><span class="line">        <span class="keyword">if</span> (str1.equals(str2)) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//根据两个字符串初始化出两个map</span></span><br><span class="line">        HashMap&lt;Character,HashSet&lt;Integer&gt;&gt; map1 = initialize(str1);</span><br><span class="line">        HashMap&lt;Character,HashSet&lt;Integer&gt;&gt; map2 = initialize(str2);</span><br><span class="line">        <span class="comment">//分别获取两个map的size ,即两个字符串的字符种类数量</span></span><br><span class="line">        <span class="keyword">int</span> num1 = map1.size();</span><br><span class="line">        <span class="keyword">int</span> num2 = map2.size();</span><br><span class="line">        <span class="comment">//如果str1的字符种类数量少于str2,或者str2的字符种类数量为26,</span></span><br><span class="line">        <span class="comment">//则不可能进行转换,因为无法存在转换的中间值,必然会导致失败</span></span><br><span class="line">        <span class="keyword">if</span> (num1 &lt; num2 || num2 == <span class="number">26</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//遍历map2中的数值(value)</span></span><br><span class="line">        <span class="keyword">for</span> (HashSet&lt;Integer&gt; value : map2.values()) &#123;</span><br><span class="line">            <span class="comment">//遍历当前set中的值</span></span><br><span class="line">            <span class="keyword">for</span> (Integer n : value) &#123;</span><br><span class="line">                <span class="comment">//找到str2中对应str1相同位置的字符c</span></span><br><span class="line">                Character c = str1.charAt(n);</span><br><span class="line">                <span class="comment">//从map1中获取字符c所对应的下标集合set</span></span><br><span class="line">                HashSet&lt;Integer&gt; set = map1.get(c);</span><br><span class="line">                <span class="comment">//判断set中的数值是否完全属于value</span></span><br><span class="line">                <span class="comment">//若不是,则返回false</span></span><br><span class="line">                <span class="keyword">if</span> (!isOnly(value,set)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将当前字符串中的信息存进map</span></span><br><span class="line"><span class="comment">     * 该HashMap 的 key 为字符 即(a~z),</span></span><br><span class="line"><span class="comment">     * value为 该字符串中,该字符所在位置的下标集合,为HashSet&lt;Integer&gt;类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> str</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> HashMap&lt;Character,HashSet&lt;Integer&gt;&gt; initialize(String str) &#123;</span><br><span class="line">        HashMap&lt;Character,HashSet&lt;Integer&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; str.length(); i++) &#123;</span><br><span class="line">            Character c = str.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(str.charAt(i))) &#123;</span><br><span class="line">                HashSet&lt;Integer&gt; set = map.get(c);</span><br><span class="line">                set.add(i);</span><br><span class="line">                map.put(c, set);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                HashSet&lt;Integer&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">                set.add(i);</span><br><span class="line">                map.put(c, set);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断set1中的数值是否完全属于set2</span></span><br><span class="line"><span class="comment">     * 即判断 set1 是否为 set2 的子集</span></span><br><span class="line"><span class="comment">     * 若不是,则返回false</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> set2</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> set1</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isOnly</span><span class="params">(HashSet&lt;Integer&gt; set2,HashSet&lt;Integer&gt; set1)</span></span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> is = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (Integer n : set1) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set2.contains(n))&#123;</span><br><span class="line">                is = <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> is;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+            
+              <a href="/tags/java/" rel="tag"># java</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/25/等价多米诺骨牌对的数量/" rel="next" title="等价多米诺骨牌对的数量">
+                  <i class="fa fa-chevron-left"></i> 等价多米诺骨牌对的数量
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串转化"><span class="nav-number">1.</span> <span class="nav-text">字符串转化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">1.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题思路"><span class="nav-number">1.2.</span> <span class="nav-text">解题思路</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">iyue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/iyue" title="GitHub &rarr; https://github.com/iyue" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:chpyue@foxmail.com" title="E-Mail &rarr; mailto:chpyue@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">iyue</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.4.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/muse.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
